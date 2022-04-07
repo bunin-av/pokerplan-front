@@ -23,10 +23,31 @@ class API {
       .then(res => res.json());
   }
 
-  pickCard({name, picked}) {
+  pickCard(user) {
     return fetch(this.url('/users'), {
       method: 'PATCH',
-      body: JSON.stringify({name, picked}),
+      body: JSON.stringify(user),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
+      .then(res => res.json());
+  }
+
+  addTask(data) {
+    return fetch(this.url('/tasks'), {
+      method: 'POST',
+      body: JSON.stringify({data}),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
+      .then(res => res.json());
+  }
+
+  nullResults() {
+    return fetch(this.url('/users'), {
+      method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -36,5 +57,6 @@ class API {
 }
 
 
-const api = new API('http://localhost:4000')
-export  { api };
+const api = new API('http://localhost:4000');
+const eventSource = new EventSource('http://localhost:4000/connection');
+export  { api, eventSource };

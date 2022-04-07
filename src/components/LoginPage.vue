@@ -12,17 +12,19 @@
 import {MainEmitter} from "@/App";
 import {api} from "@/api";
 import UserNameInput from "@/components/UserNameInput";
+import {NAME_SUBMIT} from "@/utils/EventEmitter";
 
 
 export default {
   name: "LoginPage",
   components: {UserNameInput},
+
   beforeCreate() {
     this.emitter = MainEmitter;
   },
 
   mounted() {
-    this.emitter.on('name-submit', (data) => {
+    this.emitter.on(NAME_SUBMIT, (data) => {
       api.logIn(data).then(user => {
         localStorage.setItem('userName', user.name);
         this.$router.push('/room');

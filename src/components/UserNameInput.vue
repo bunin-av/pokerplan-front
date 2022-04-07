@@ -1,12 +1,13 @@
 <template>
   <div class="input-container">
-    <input v-model="value" @keydown="onEnterPress" autofocus/>
+    <input v-model="value" @keydown.enter="emitName" autofocus/>
     <button @click="emitName">Submit</button>
   </div>
 </template>
 
 <script>
 import {MainEmitter} from "@/App";
+import {NAME_SUBMIT} from "@/utils/EventEmitter";
 
 export default {
   name: "UserNameInput",
@@ -24,10 +25,7 @@ export default {
     emitName() {
       if (!this.value) return;
 
-      this.emitter.emit('name-submit', this.value);
-    },
-    onEnterPress({key}) {
-      if (key === 'Enter') this.emitName();
+      this.emitter.emit(NAME_SUBMIT, this.value);
     }
   },
 }

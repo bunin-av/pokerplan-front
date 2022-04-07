@@ -45,14 +45,29 @@ class ComponentEventEmitter {
    * @param type{string} - название события
    * @param payload{any} - название события
    */
-  emit(type, payload) {
+  emit(type, ...payload) {
     if (!type) throw Error('UNSPECIFIED_EVENT_TYPE_ERR');
 
     const handlers = this.handlers.get(type);
 
-    handlers?.forEach(cb => cb(payload));
+    handlers?.forEach(cb => cb(...payload));
   }
 }
 
 export default ComponentEventEmitter;
 
+const ADD_TASK = 'add-task';
+const USER_PICKED_CARD = 'user-picked-card';
+const NAME_SUBMIT = 'name-submit';
+const NEXT_TASK = 'next-task';
+const NULL_RESULTS = 'null-results';
+const SHOW_RESULTS = 'show-results';
+
+export {
+  ADD_TASK,
+  USER_PICKED_CARD,
+  NAME_SUBMIT,
+  NEXT_TASK,
+  NULL_RESULTS,
+  SHOW_RESULTS,
+};

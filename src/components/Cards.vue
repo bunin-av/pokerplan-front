@@ -14,6 +14,7 @@
 
 <script>
 import {MainEmitter} from "@/App";
+import {NULL_RESULTS, USER_PICKED_CARD} from "@/utils/EventEmitter";
 
 export default {
   name: "PokerCards",
@@ -26,7 +27,7 @@ export default {
 
   methods: {
     pickCard(card) {
-      this.emitter.emit('user-picked-card', card);
+      this.emitter.emit(USER_PICKED_CARD, card, ({picked}) => this.activeEl = picked);
     },
   },
 
@@ -35,8 +36,8 @@ export default {
   },
 
   mounted() {
-    this.emitter.on('card-send', ({picked}) => {
-      this.activeEl = picked;
+    this.emitter.on(NULL_RESULTS, () => {
+      this.activeEl = null;
     });
   }
 }

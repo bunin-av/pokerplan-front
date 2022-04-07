@@ -1,32 +1,34 @@
 <template>
   <div class="link-wrapper">
-    <input v-model="value" @keydown="onEnterPress" placeholder="Enter task link">
     <div class="link">
-      <a target="_blank" :href="link">
-        {{ link }}
+      <a target="_blank" :href="task">
+        {{ task }}
       </a>
     </div>
   </div>
 </template>
 
 <script>
+// import {MainEmitter} from "@/App";
+// import {CHANGE_LINK} from "@/utils/EventEmitter";
+
 export default {
   name: "TaskLink",
-  data() {
-    return {
-      value: '',
-      link: '',
-    }
-  },
+  props: ['task'],
 
-  methods: {
-    onEnterPress({key}) {
-      if (key === 'Enter') {
-        this.link = this.value;
-        this.value = '';
-      }
-    }
-  }
+  // data() {
+  //   return {
+  //     link: '',
+  //   }
+  // },
+
+ // beforeCreate() {
+ //    this.emitter = MainEmitter;
+ // },
+
+  // mounted() {
+  //   this.emitter.on(CHANGE_LINK, (link) => this.link = link);
+  // }
 }
 </script>
 
@@ -36,9 +38,6 @@ export default {
   display: flex;
   flex-direction: column;
   /*margin: 0 auto;*/
-}
-
-.link-wrapper input {
   width: 100%;
   padding: 5px 10px;
   margin-right: auto;

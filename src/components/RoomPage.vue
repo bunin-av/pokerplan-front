@@ -1,7 +1,7 @@
 <template>
   <h3>Main room</h3>
   <div class="room-wrapper">
-    <TaskLink/>
+    <TaskLink :task="task"/>
     <PokerCards/>
     <UsersList :users="users"/>
     <TasksList/>
@@ -14,7 +14,8 @@ import TaskLink from "@/components/TaskLink";
 import UsersList from "@/components/UsersList";
 import TasksList from "@/components/TasksList";
 import {MainEmitter} from "@/App";
-import {api} from "@/api";
+import {api, eventSource} from "@/api";
+import {ADD_TASK, NEXT_TASK, NULL_RESULTS, SHOW_RESULTS, USER_PICKED_CARD} from "@/utils/EventEmitter";
 
 export default {
   name: "RoomPage",
@@ -23,6 +24,7 @@ export default {
   data() {
     return {
       users: [],
+      task: '',
     }
   },
 
@@ -35,20 +37,47 @@ export default {
       this.users = new Map(users.map(el => [el.name, el]));
     });
 
-    this.emitter.on('user-picked-card', picked => {
+    this.emitter.on(USER_PICKED_CARD, (picked, cb) => {
       const name = localStorage.getItem('userName');
 
       const element = this.users.get(name);
-
       if (element && element.picked === picked) picked = null;
 
-      api.pickCard({name, picked}).then(user => {
+      api.pickCard({name, picked}).then(cb);
+    });
 
-        this.users.set(user.name, user)
+    this.emitter.on(ADD_TASK, (data, cb) => {
+      if (!data) return;
+      api.addTask(data).then(cb);
+    });
 
-        this.emitter.emit('card-send', user);
+    this.emitter.on(NEXT_TASK, () => {
+      api.nullResults().then(()=> {
+        this.emitter.emit(NULL_RESULTS);
       });
     });
+
+    this.eventSource = eventSource;
+    this.eventSource.onmessage = (message) => {
+      const {data, event} = JSON.parse(message.data);
+
+      if (event === 'users') {
+        const result = [];
+
+        this.users = new Map(data.map(el => {
+          el.picked != null && result.push(el.picked);
+
+          return [el.name, el];
+        }));
+
+        if (result.length === this.users.size) {
+          this.emitter.emit(SHOW_RESULTS);
+        }
+      }
+      if (event === 'tasks') {
+        this.task = data.data;
+      }
+    }
   }
 }
 </script>
@@ -62,7 +91,7 @@ export default {
       "cards users"
       "tasks users";
   grid-auto-columns: 2fr 1fr;
-  grid-template-rows: 1fr 2fr 1fr;
+  grid-template-rows: 1fr 2fr auto;
   grid-gap: 20px;
 }
 

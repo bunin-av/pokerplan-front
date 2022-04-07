@@ -1,23 +1,21 @@
 class Socket {
-  constructor(onopen, onmessage) {
-    this.create(onopen, onmessage);
+  constructor() {
+    this.create();
   }
 
-  create(onopen, onmessage) {
+  create() {
     this.socket = new WebSocket('ws://localhost:4000');
 
     this.socket.onopen = () => {
-      onopen();
       console.log('Connection opened')
     };
 
-    this.socket.onmessage = () => {
-      onmessage();
+    this.socket.onmessage = (message) => {
+      console.log(message)
       console.log('Message received')
     };
 
     this.socket.onclose = () => {
-      this.create();
       console.log('Connection closed')
     };
 
