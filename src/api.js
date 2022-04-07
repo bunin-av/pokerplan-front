@@ -63,5 +63,5 @@ class API {
 }
 
 
-const api = new API('http://localhost:4000');
+const api = new API('https://pokerplan-back.herokuapp.com/');
 export {api};
