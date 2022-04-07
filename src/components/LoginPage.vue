@@ -27,6 +27,7 @@ export default {
     this.emitter.on(NAME_SUBMIT, (data) => {
       api.logIn(data).then(user => {
         localStorage.setItem('userName', user.name);
+        window.location.pathname ='/room';
         this.$router.push('/room');
       });
     });
