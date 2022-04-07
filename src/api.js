@@ -48,15 +48,20 @@ class API {
   nullResults() {
     return fetch(this.url('/users'), {
       method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    })
-      .then(res => res.json());
+    });
+  }
+
+  setupEventSource(onmessage) {
+    const evtSource = new EventSource(this.url('/connection'));
+    evtSource.onmessage = onmessage;
+
+    evtSource.onerror = () => {
+      evtSource.close();
+      setTimeout(() => this.setupEventSource(onmessage), 1000);
+    };
   }
 }
 
 
 const api = new API('http://localhost:4000');
-const eventSource = new EventSource('http://localhost:4000/connection');
-export  { api, eventSource };
+export {api};

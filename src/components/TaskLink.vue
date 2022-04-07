@@ -9,26 +9,10 @@
 </template>
 
 <script>
-// import {MainEmitter} from "@/App";
-// import {CHANGE_LINK} from "@/utils/EventEmitter";
 
 export default {
   name: "TaskLink",
   props: ['task'],
-
-  // data() {
-  //   return {
-  //     link: '',
-  //   }
-  // },
-
- // beforeCreate() {
- //    this.emitter = MainEmitter;
- // },
-
-  // mounted() {
-  //   this.emitter.on(CHANGE_LINK, (link) => this.link = link);
-  // }
 }
 </script>
 
@@ -37,7 +21,6 @@ export default {
   grid-area: link;
   display: flex;
   flex-direction: column;
-  /*margin: 0 auto;*/
   width: 100%;
   padding: 5px 10px;
   margin-right: auto;

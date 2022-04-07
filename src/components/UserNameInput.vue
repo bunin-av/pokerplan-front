@@ -38,7 +38,6 @@ export default {
 
 .input-container button{
   margin-left: -1px;
-  /*font: inherit;*/
   padding: 0 10px;
 }
 </style>

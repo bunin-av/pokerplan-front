@@ -36,9 +36,7 @@ export default {
   },
 
   mounted() {
-    this.emitter.on(NULL_RESULTS, () => {
-      this.activeEl = null;
-    });
+    this.emitter.on(NULL_RESULTS, () => this.activeEl = null);
   }
 }
 </script>

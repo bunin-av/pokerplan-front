@@ -14,7 +14,7 @@ import TaskLink from "@/components/TaskLink";
 import UsersList from "@/components/UsersList";
 import TasksList from "@/components/TasksList";
 import {MainEmitter} from "@/App";
-import {api, eventSource} from "@/api";
+import {api} from "@/api";
 import {ADD_TASK, NEXT_TASK, NULL_RESULTS, SHOW_RESULTS, USER_PICKED_CARD} from "@/utils/EventEmitter";
 
 export default {
@@ -25,6 +25,29 @@ export default {
     return {
       users: [],
       task: '',
+    }
+  },
+
+  methods: {
+    onmessage (message) {
+      const {data, event} = JSON.parse(message.data);
+
+      if (event === 'users') {
+        const result = [];
+
+        this.users = new Map(data.map(el => {
+          el.picked != null && result.push(el.picked);
+
+          return [el.name, el];
+        }));
+
+        if (result.length === this.users.size) {
+          this.emitter.emit(SHOW_RESULTS);
+        }
+      }
+      if (event === 'tasks') {
+        this.task = data;
+      }
     }
   },
 
@@ -48,36 +71,16 @@ export default {
 
     this.emitter.on(ADD_TASK, (data, cb) => {
       if (!data) return;
+
       api.addTask(data).then(cb);
     });
 
     this.emitter.on(NEXT_TASK, () => {
-      api.nullResults().then(()=> {
-        this.emitter.emit(NULL_RESULTS);
-      });
+      api.nullResults()
+          .then(() => this.emitter.emit(NULL_RESULTS));
     });
 
-    this.eventSource = eventSource;
-    this.eventSource.onmessage = (message) => {
-      const {data, event} = JSON.parse(message.data);
-
-      if (event === 'users') {
-        const result = [];
-
-        this.users = new Map(data.map(el => {
-          el.picked != null && result.push(el.picked);
-
-          return [el.name, el];
-        }));
-
-        if (result.length === this.users.size) {
-          this.emitter.emit(SHOW_RESULTS);
-        }
-      }
-      if (event === 'tasks') {
-        this.task = data.data;
-      }
-    }
+    api.setupEventSource(this.onmessage);
   }
 }
 </script>

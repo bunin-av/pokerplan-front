@@ -10,6 +10,11 @@
         {{ user.picked }}
       </span>
     </div>
+    <div class="results">Result:
+      <div :class="{visible: isVisible}">
+        {{ summarize }}
+      </div>
+    </div>
   </div>
 </template>
 
@@ -27,28 +32,17 @@ export default {
     }
   },
 
-  methods: {
-    // addClass() {
-    //   // const elems = this.$el.querySelectorAll('.result');
-    //   // elems.forEach(el => el.classList.add('_visible'));
-    //   // setTimeout(() => {
-    //   //   elems.forEach(el => el.classList.toggle('_visible'));
-    //   // }, 5000);
-    //
-    // },
+  computed: {
+    summarize() {
+      if (!this.isVisible) return null;
 
-    removeResults() {
-      const results = this.$el.querySelectorAll('.visible');
-      const users = this.$el.querySelectorAll('.ready');
-      //
-      results.forEach(el => el.classList.remove('visible'));
-      users.forEach(el => el.classList.remove('ready'));
+      let result = 0;
 
-      this.isVisible = false;
-    },
+      this.users.forEach(el => {
+        result += el.picked;
+      });
 
-    showResults() {
-      this.isVisible = true;
+      return (result / this.users.size).toFixed(1);
     }
   },
 
@@ -57,8 +51,8 @@ export default {
   },
 
   mounted() {
-    this.emitter.on(NULL_RESULTS, this.removeResults);
-    this.emitter.on(SHOW_RESULTS, this.showResults);
+    this.emitter.on(NULL_RESULTS, () => this.isVisible = false);
+    this.emitter.on(SHOW_RESULTS, () => this.isVisible = true);
   }
 }
 
@@ -93,5 +87,14 @@ export default {
 
 .visible {
   visibility: visible;
+}
+
+.results {
+  height: 20px;
+  font-size: 1.5em;
+}
+
+.results span {
+  visibility: hidden;
 }
 </style>
