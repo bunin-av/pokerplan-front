@@ -3,8 +3,8 @@ class API {
     this.domain = domain;
   }
 
-  url(subdomain) {
-    return this.domain + subdomain;
+  url(path) {
+    return this.domain + path;
   }
 
   logIn(payload) {
@@ -48,7 +48,13 @@ class API {
   nullResults() {
     return fetch(this.url('/users'), {
       method: 'DELETE',
-    });
+    })
+      .then(res => res.text());
+  }
+
+  startNewGame() {
+    return fetch(this.url('/new-game'))
+      .then(res => res.text());
   }
 
   setupEventSource(onmessage) {
@@ -63,5 +69,8 @@ class API {
 }
 
 
-const api = new API('https://pokerplan-back.herokuapp.com');
+const domain = process.env.NODE_ENV === 'production' ? 'https://pokerplan-back.herokuapp.com' : 'http://localhost:4000';
+
+const api = new API(domain);
+
 export {api};

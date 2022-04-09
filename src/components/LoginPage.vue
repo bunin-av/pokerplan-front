@@ -1,23 +1,38 @@
 <template>
   <div class="input-wrapper">
     <h2>Hello, user!</h2>
+    <button @click="startNewGame">New Game</button>
     <div class="input-container">
       <span>Enter your name</span>
       <UserNameInput/>
     </div>
+    <br/>
+    <br/>
+    <button @click="enterAsSpectator">Enter as spectator</button>
   </div>
 </template>
 
 <script>
-import {MainEmitter} from "@/App";
 import {api} from "@/api";
 import UserNameInput from "@/components/UserNameInput";
-import {NAME_SUBMIT} from "@/utils/EventEmitter";
+import {MainEmitter, NAME_SUBMIT} from "@/utils/EventEmitter";
 
 
 export default {
   name: "LoginPage",
   components: {UserNameInput},
+
+  methods: {
+    startNewGame() {
+      api.startNewGame().then(res => {
+        alert(res);
+      });
+    },
+
+    enterAsSpectator() {
+      window.location.pathname ='/room';
+    }
+  },
 
   beforeCreate() {
     this.emitter = MainEmitter;

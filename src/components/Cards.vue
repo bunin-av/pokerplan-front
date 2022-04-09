@@ -13,8 +13,7 @@
 </template>
 
 <script>
-import {MainEmitter} from "@/App";
-import {NULL_RESULTS, USER_PICKED_CARD} from "@/utils/EventEmitter";
+import {MainEmitter, NULL_RESULTS, USER_PICKED_CARD} from "@/utils/EventEmitter";
 
 export default {
   name: "PokerCards",

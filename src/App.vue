@@ -4,10 +4,10 @@
 </template>
 
 <script>
-import EventEmitter from "@/utils/EventEmitter";
-
-const MainEmitter = new EventEmitter();
-export {MainEmitter};
+// import EventEmitter from "@/utils/EventEmitter";
+//
+// const MainEmitter = new EventEmitter();
+// export {MainEmitter};
 
 export default {
   name: 'App',
@@ -22,7 +22,7 @@ export default {
 }
 
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  /*font-family: Avenir, Helvetica, Arial, sans-serif;*/
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

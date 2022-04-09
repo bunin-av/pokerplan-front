@@ -14,8 +14,7 @@
 </template>
 
 <script>
-import {MainEmitter} from "@/App";
-import {ADD_TASK, NEXT_TASK} from "@/utils/EventEmitter";
+import {ADD_TASK, MainEmitter, NEXT_TASK} from "@/utils/EventEmitter";
 
 export default {
   name: "TasksList",

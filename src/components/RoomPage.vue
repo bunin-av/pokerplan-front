@@ -13,9 +13,8 @@ import PokerCards from "@/components/Cards";
 import TaskLink from "@/components/TaskLink";
 import UsersList from "@/components/UsersList";
 import TasksList from "@/components/TasksList";
-import {MainEmitter} from "@/App";
 import {api} from "@/api";
-import {ADD_TASK, NEXT_TASK, NULL_RESULTS, SHOW_RESULTS, USER_PICKED_CARD} from "@/utils/EventEmitter";
+import {ADD_TASK, MainEmitter, NEXT_TASK, NULL_RESULTS, SHOW_RESULTS, USER_PICKED_CARD} from "@/utils/EventEmitter";
 
 export default {
   name: "RoomPage",
@@ -92,7 +91,7 @@ export default {
   grid-template-areas:
       "link users"
       "cards users"
-      "tasks users";
+      "tasks results";
   grid-auto-columns: 2fr 1fr;
   grid-template-rows: 1fr 2fr auto;
   grid-gap: 20px;

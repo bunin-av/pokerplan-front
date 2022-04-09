@@ -6,8 +6,7 @@
 </template>
 
 <script>
-import {MainEmitter} from "@/App";
-import {NAME_SUBMIT} from "@/utils/EventEmitter";
+import {MainEmitter, NAME_SUBMIT} from "@/utils/EventEmitter";
 
 export default {
   name: "UserNameInput",

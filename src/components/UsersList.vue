@@ -10,17 +10,16 @@
         {{ user.picked }}
       </span>
     </div>
-    <div class="results">Result:
-      <div :class="{visible: isVisible}">
-        {{ summarize }}
-      </div>
+  </div>
+  <div class="results">Results:
+    <div :class="{visible: isVisible}">
+      {{ summarize }}
     </div>
   </div>
 </template>
 
 <script>
-import {MainEmitter} from "@/App";
-import {NULL_RESULTS, SHOW_RESULTS} from "@/utils/EventEmitter";
+import {MainEmitter, NULL_RESULTS, SHOW_RESULTS} from "@/utils/EventEmitter";
 
 export default {
   name: "UsersList",
@@ -92,9 +91,6 @@ export default {
 .results {
   height: 20px;
   font-size: 1.5em;
-}
-
-.results span {
-  visibility: hidden;
+  grid-area: results;
 }
 </style>

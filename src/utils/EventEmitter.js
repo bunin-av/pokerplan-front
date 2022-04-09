@@ -54,7 +54,7 @@ class ComponentEventEmitter {
   }
 }
 
-export default ComponentEventEmitter;
+const MainEmitter = new ComponentEventEmitter();
 
 const ADD_TASK = 'add-task';
 const USER_PICKED_CARD = 'user-picked-card';
@@ -64,6 +64,7 @@ const NULL_RESULTS = 'null-results';
 const SHOW_RESULTS = 'show-results';
 
 export {
+  MainEmitter,
   ADD_TASK,
   USER_PICKED_CARD,
   NAME_SUBMIT,
