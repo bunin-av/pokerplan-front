@@ -12,7 +12,14 @@
 
 export default {
   name: "TaskLink",
-  props: ['task'],
+
+  data: () => ({task: ''}),
+
+  methods: {
+    setTask(task) {
+      this.task = task;
+    }
+  }
 }
 </script>
 

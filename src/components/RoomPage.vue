@@ -1,7 +1,7 @@
 <template>
   <h3>Main room</h3>
   <div class="room-wrapper">
-    <TaskLink :task="task"/>
+    <TaskLink ref="task"/>
     <PokerCards/>
     <UsersList :users="users"/>
     <TasksList/>
@@ -23,7 +23,6 @@ export default {
   data() {
     return {
       users: [],
-      task: '',
     }
   },
 
@@ -45,7 +44,7 @@ export default {
         }
       }
       if (event === 'tasks') {
-        this.task = data;
+        this.$refs.task.setTask(data);
       }
     }
   },
@@ -96,6 +95,4 @@ export default {
   grid-template-rows: 1fr 2fr auto;
   grid-gap: 20px;
 }
-
-
 </style>
