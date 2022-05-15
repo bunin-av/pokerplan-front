@@ -1,10 +1,10 @@
 <template>
   <h3>Main room</h3>
   <div class="room-wrapper">
-    <TaskLink ref="task"/>
+    <TaskLink :task="tasks[0] ?? {}"/>
     <PokerCards/>
     <UsersList :users="users"/>
-    <TasksList/>
+    <TasksList :tasks="tasks"/>
   </div>
 </template>
 
@@ -15,7 +15,7 @@ import UsersList from "@/components/UsersList";
 import TasksList from "@/components/TasksList";
 import {api} from "@/api";
 import {
-  ADD_TASK, DELETE_PLAYER,
+  ADD_TASKS, DELETE_PLAYER,
   MainEmitter,
   NEXT_TASK,
   NULL_CARD,
@@ -31,6 +31,7 @@ export default {
   data() {
     return {
       users: [],
+      tasks: [],
     }
   },
 
@@ -62,8 +63,9 @@ export default {
         }
 
       }
+
       if (event === 'tasks') {
-        this.$refs.task.setTask(data);
+        this.tasks = data;
       }
     }
   },
@@ -77,6 +79,10 @@ export default {
       this.users = new Map(users.map(el => [el._id, el]));
     });
 
+    api.getTasks().then(tasks => {
+      this.tasks = tasks;
+    });
+
     this.emitter.on(USER_PICKED_CARD, (picked, cb) => {
       const id = localStorage.getItem('userId');
 
@@ -86,14 +92,14 @@ export default {
       api.pickCard({id, picked}).then(cb);
     });
 
-    this.emitter.on(ADD_TASK, (data, cb) => {
+    this.emitter.on(ADD_TASKS, (data) => {
       if (!data) return;
 
-      api.addTask(data).then(cb);
+      api.addTasks(data);
     });
 
-    this.emitter.on(NEXT_TASK, () => {
-      api.nullResults()
+    this.emitter.on(NEXT_TASK, (id) => {
+      Promise.all([api.nullResults(), api.deleteTask(id)])
           .then(() => this.emitter.emit(NULL_RESULTS));
     });
 

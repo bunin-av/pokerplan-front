@@ -56,9 +56,9 @@ class ComponentEventEmitter {
 
 const MainEmitter = new ComponentEventEmitter();
 
-const ADD_TASK = 'add-task';
 const USER_PICKED_CARD = 'user-picked-card';
 const NAME_SUBMIT = 'name-submit';
+const ADD_TASKS = 'add-tasks';
 const NEXT_TASK = 'next-task';
 const NULL_RESULTS = 'null-results';
 const SHOW_RESULTS = 'show-results';
@@ -67,7 +67,7 @@ const DELETE_PLAYER = 'delete-player';
 
 export {
   MainEmitter,
-  ADD_TASK,
+  ADD_TASKS,
   USER_PICKED_CARD,
   NAME_SUBMIT,
   NEXT_TASK,

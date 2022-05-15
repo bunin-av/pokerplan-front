@@ -34,7 +34,30 @@ class API {
       .then(res => res.json());
   }
 
-  addTask(data) {
+  nullResults() {
+    return fetch(this.url('/users'), {
+      method: 'DELETE',
+    })
+      .then(res => res.text());
+  }
+
+  deletePlayer(id) {
+    return fetch(this.url('/user'), {
+      method: 'DELETE',
+      body: JSON.stringify({id}),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
+      .then(res => res.text());
+  }
+
+  getTasks() {
+    return fetch(this.url('/tasks'))
+      .then(res => res.json());
+  }
+
+  addTasks(data) {
     return fetch(this.url('/tasks'), {
       method: 'POST',
       body: JSON.stringify({data}),
@@ -45,15 +68,8 @@ class API {
       .then(res => res.json());
   }
 
-  nullResults() {
-    return fetch(this.url('/users'), {
-      method: 'DELETE',
-    })
-      .then(res => res.text());
-  }
-
-  deletePlayer(id) {
-    return fetch(this.url('/user'), {
+  deleteTask(id) {
+    return fetch(this.url('/tasks'), {
       method: 'DELETE',
       body: JSON.stringify({id}),
       headers: {

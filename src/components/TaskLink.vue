@@ -1,8 +1,8 @@
 <template>
   <div class="link-wrapper">
     <div class="link">
-      <a target="_blank" :href="task">
-        {{ task }}
+      <a target="_blank" :href="task.link">
+        {{ task.link }}
       </a>
     </div>
   </div>
@@ -12,14 +12,7 @@
 
 export default {
   name: "TaskLink",
-
-  data: () => ({task: ''}),
-
-  methods: {
-    setTask(task) {
-      this.task = task;
-    }
-  }
+  props: ['task'],
 }
 </script>
 

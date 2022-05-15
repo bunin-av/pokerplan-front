@@ -7,44 +7,45 @@
     </div>
     <div class="link">
     </div>
-    <div v-for="task of tasks" :key="task" class="tasks-list">
-      {{ task }}
+    <div v-for="task of tasks" :key="task._id" class="tasks-list">
+      {{ task.link }}
     </div>
   </div>
 </template>
 
 <script>
-import {ADD_TASK, MainEmitter, NEXT_TASK} from "@/utils/EventEmitter";
+import {ADD_TASKS, MainEmitter, NEXT_TASK} from "@/utils/EventEmitter";
 
 export default {
   name: "TasksList",
+  props: ['tasks'],
   data() {
     return {
       value: '',
       link: '',
-      tasks: []
     }
   },
 
   methods: {
     addTasks() {
       let separator;
-      const value = this.value.trim();
+      const
+          tasks = [],
+          value = this.value.trim();
 
       if (value.includes(' ')) separator = ' ';
       if (value.includes('\n')) separator = '\n';
 
       separator
-          ? this.tasks.unshift(...value.split(separator))
-          : this.tasks.unshift(value);
+          ? tasks.unshift(...value.split(separator))
+          : tasks.unshift(value);
 
       this.value = '';
-      this.emitter.emit(ADD_TASK, this.tasks[0], () => this.tasks.shift());
+      this.emitter.emit(ADD_TASKS, tasks);
     },
 
     nextTask() {
-      this.emitter.emit(ADD_TASK, this.tasks[0], () => this.tasks.shift());
-      this.emitter.emit(NEXT_TASK);
+      this.emitter.emit(NEXT_TASK, this.tasks[0]._id);
     }
   },
 

@@ -4,10 +4,6 @@
 </template>
 
 <script>
-// import EventEmitter from "@/utils/EventEmitter";
-//
-// const MainEmitter = new EventEmitter();
-// export {MainEmitter};
 
 export default {
   name: 'App',

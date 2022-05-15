@@ -57,7 +57,6 @@ export default {
   },
 
   mounted() {
-    console.log(this.users)
     this.emitter.on(NULL_RESULTS, () => this.isVisible = false);
     this.emitter.on(SHOW_RESULTS, () => this.isVisible = true);
   },
