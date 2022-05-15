@@ -52,6 +52,17 @@ class API {
       .then(res => res.text());
   }
 
+  deletePlayer(id) {
+    return fetch(this.url('/user'), {
+      method: 'DELETE',
+      body: JSON.stringify({id}),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
+      .then(res => res.text());
+  }
+
   startNewGame() {
     return fetch(this.url('/new-game'))
       .then(res => res.text());

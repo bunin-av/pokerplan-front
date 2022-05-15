@@ -3,12 +3,13 @@
     <div
         v-for="user of users.values()"
         :class="[{ready: user.picked != null}, 'name']"
-        :key="user.id"
+        :key="user._id"
     >
       {{ user.name }}
       <span :class="[{visible: isVisible},'result']">
         {{ user.picked }}
       </span>
+      <button @click="deleteUser(user._id)">X</button>
     </div>
   </div>
   <div class="results">Results:
@@ -19,7 +20,7 @@
 </template>
 
 <script>
-import {MainEmitter, NULL_RESULTS, SHOW_RESULTS} from "@/utils/EventEmitter";
+import {DELETE_PLAYER, MainEmitter, NULL_RESULTS, SHOW_RESULTS} from "@/utils/EventEmitter";
 
 export default {
   name: "UsersList",
@@ -28,6 +29,12 @@ export default {
   data() {
     return {
       isVisible: false,
+    }
+  },
+
+  methods: {
+    deleteUser(id) {
+      this.emitter.emit(DELETE_PLAYER, id);
     }
   },
 
@@ -50,6 +57,7 @@ export default {
   },
 
   mounted() {
+    console.log(this.users)
     this.emitter.on(NULL_RESULTS, () => this.isVisible = false);
     this.emitter.on(SHOW_RESULTS, () => this.isVisible = true);
   },

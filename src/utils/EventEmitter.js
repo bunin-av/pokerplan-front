@@ -63,6 +63,7 @@ const NEXT_TASK = 'next-task';
 const NULL_RESULTS = 'null-results';
 const SHOW_RESULTS = 'show-results';
 const NULL_CARD = 'null-card';
+const DELETE_PLAYER = 'delete-player';
 
 export {
   MainEmitter,
@@ -73,4 +74,5 @@ export {
   NULL_RESULTS,
   SHOW_RESULTS,
   NULL_CARD,
+  DELETE_PLAYER,
 };

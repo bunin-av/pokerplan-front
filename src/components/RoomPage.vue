@@ -15,7 +15,7 @@ import UsersList from "@/components/UsersList";
 import TasksList from "@/components/TasksList";
 import {api} from "@/api";
 import {
-  ADD_TASK,
+  ADD_TASK, DELETE_PLAYER,
   MainEmitter,
   NEXT_TASK,
   NULL_CARD,
@@ -83,7 +83,7 @@ export default {
       const element = this.users.get(id);
       if (element && element.picked === picked) picked = null;
 
-      api.pickCard({name: element.name, picked}).then(cb);
+      api.pickCard({id, picked}).then(cb);
     });
 
     this.emitter.on(ADD_TASK, (data, cb) => {
@@ -96,6 +96,10 @@ export default {
       api.nullResults()
           .then(() => this.emitter.emit(NULL_RESULTS));
     });
+
+    this.emitter.on(DELETE_PLAYER, (id) => {
+      api.deletePlayer(id);
+    })
 
     api.setupEventSource(this.onmessage);
   }
