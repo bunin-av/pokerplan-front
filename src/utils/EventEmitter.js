@@ -62,6 +62,7 @@ const NAME_SUBMIT = 'name-submit';
 const NEXT_TASK = 'next-task';
 const NULL_RESULTS = 'null-results';
 const SHOW_RESULTS = 'show-results';
+const NULL_CARD = 'null-card';
 
 export {
   MainEmitter,
@@ -71,4 +72,5 @@ export {
   NEXT_TASK,
   NULL_RESULTS,
   SHOW_RESULTS,
+  NULL_CARD,
 };

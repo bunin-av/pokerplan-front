@@ -14,7 +14,15 @@ import TaskLink from "@/components/TaskLink";
 import UsersList from "@/components/UsersList";
 import TasksList from "@/components/TasksList";
 import {api} from "@/api";
-import {ADD_TASK, MainEmitter, NEXT_TASK, NULL_RESULTS, SHOW_RESULTS, USER_PICKED_CARD} from "@/utils/EventEmitter";
+import {
+  ADD_TASK,
+  MainEmitter,
+  NEXT_TASK,
+  NULL_CARD,
+  NULL_RESULTS,
+  SHOW_RESULTS,
+  USER_PICKED_CARD
+} from "@/utils/EventEmitter";
 
 export default {
   name: "RoomPage",
@@ -32,16 +40,27 @@ export default {
 
       if (event === 'users') {
         const result = [];
+        let allPickedAreNull = true;
 
         this.users = new Map(data.map(el => {
-          el.picked != null && result.push(el.picked);
+          if (el.picked != null) {
+            result.push(el.picked);
+            allPickedAreNull = false;
+          }
 
-          return [el.name, el];
+          return [el._id, el];
         }));
 
         if (result.length === this.users.size) {
           this.emitter.emit(SHOW_RESULTS);
+        } else {
+          this.emitter.emit(NULL_RESULTS);
         }
+
+        if (allPickedAreNull) {
+          this.emitter.emit(NULL_CARD);
+        }
+
       }
       if (event === 'tasks') {
         this.$refs.task.setTask(data);
@@ -55,16 +74,16 @@ export default {
 
   mounted() {
     api.getUsers().then(users => {
-      this.users = new Map(users.map(el => [el.name, el]));
+      this.users = new Map(users.map(el => [el._id, el]));
     });
 
     this.emitter.on(USER_PICKED_CARD, (picked, cb) => {
-      const name = localStorage.getItem('userName');
+      const id = localStorage.getItem('userId');
 
-      const element = this.users.get(name);
+      const element = this.users.get(id);
       if (element && element.picked === picked) picked = null;
 
-      api.pickCard({name, picked}).then(cb);
+      api.pickCard({name: element.name, picked}).then(cb);
     });
 
     this.emitter.on(ADD_TASK, (data, cb) => {

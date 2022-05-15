@@ -3,7 +3,7 @@
     <div class="card-container">
       <div
           v-for="el of cardValues"
-          :class="[{active: activeEl === el}, 'card']"
+          :class="[{active: activeCard === el}, 'card']"
           @click="pickCard(el)"
           :key="el">
         {{ el }}
@@ -13,20 +13,20 @@
 </template>
 
 <script>
-import {MainEmitter, NULL_RESULTS, USER_PICKED_CARD} from "@/utils/EventEmitter";
+import {MainEmitter, NULL_CARD, USER_PICKED_CARD} from "@/utils/EventEmitter";
 
 export default {
   name: "PokerCards",
   data() {
     return {
       cardValues: [1, 2, 3, 5, 8],
-      activeEl: null,
+      activeCard: null,
     }
   },
 
   methods: {
     pickCard(card) {
-      this.emitter.emit(USER_PICKED_CARD, card, ({picked}) => this.activeEl = picked);
+      this.emitter.emit(USER_PICKED_CARD, card, ({picked}) => this.activeCard = picked);
     },
   },
 
@@ -35,7 +35,7 @@ export default {
   },
 
   mounted() {
-    this.emitter.on(NULL_RESULTS, () => this.activeEl = null);
+    this.emitter.on(NULL_CARD, () => this.activeCard = null);
   }
 }
 </script>
@@ -55,7 +55,7 @@ export default {
 }
 
 .card:hover, .active {
-  background: dodgerblue;
+  background: #015b99;
 }
 
 .card-wrapper {
