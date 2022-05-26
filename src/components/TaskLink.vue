@@ -22,7 +22,6 @@ export default {
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 5px 10px;
   margin-right: auto;
 }
 

@@ -6,10 +6,13 @@
         :key="user._id"
     >
       {{ user.name }}
-      <span :class="[{visible: isVisible},'result']">
-        {{ user.picked }}
-      </span>
-      <button @click="deleteUser(user._id)">X</button>
+
+      <div class="wrapper">
+        <span :class="[{visible: isVisible},'result']">
+          {{ user.picked }}
+        </span>
+        <button @click="deleteUser(user._id)" class="delete-button">X</button>
+      </div>
     </div>
   </div>
   <div class="results">Results:
@@ -99,5 +102,22 @@ export default {
   height: 20px;
   font-size: 1.5em;
   grid-area: results;
+}
+
+.wrapper {
+  margin-left: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 50px;
+}
+
+.delete-button {
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  font-size: 0.6rem;
+  opacity: 0.5;
+  border-bottom-width: 1px;
 }
 </style>

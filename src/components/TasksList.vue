@@ -2,7 +2,7 @@
   <div class="tasks-wrapper">
     <div>Tasks list</div>
     <div class="button-input-wrapper">
-      <button @click="nextTask">Next task</button>
+      <button @click="nextTask" class="next-button">Next task</button>
       <textarea v-model="value" @keydown.enter.exact="addTasks" placeholder="Enter tasks links"/>
     </div>
     <div class="link">
@@ -73,5 +73,9 @@ export default {
 
 .tasks-list {
   width: 100%;
+}
+
+.next-button {
+  border-radius: 10px;
 }
 </style>
