@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import {MainEmitter, NULL_CARD, USER_PICKED_CARD} from "@/utils/EventEmitter";
+import {MainEmitter, NULL_ACTIVE_CARD, USER_PICKED_CARD} from "@/utils/EventEmitter";
 
 export default {
   name: "PokerCards",
@@ -35,7 +35,7 @@ export default {
   },
 
   mounted() {
-    this.emitter.on(NULL_CARD, () => this.activeCard = null);
+    this.emitter.on(NULL_ACTIVE_CARD, () => this.activeCard = null);
   }
 }
 </script>

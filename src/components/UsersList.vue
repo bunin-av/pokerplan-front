@@ -8,26 +8,27 @@
       {{ user.name }}
 
       <div class="wrapper">
-        <span :class="[{visible: isVisible},'result']">
+        <span :class="[{visible: !!result},'result']">
           {{ user.picked }}
         </span>
         <button @click="deleteUser(user._id)" class="delete-button">X</button>
       </div>
     </div>
   </div>
-  <div class="results">Results:
-    <div :class="{visible: isVisible}">
-      {{ summarize }}
+  <div class="results">
+    Results:
+    <div>
+      {{ result }}
     </div>
   </div>
 </template>
 
 <script>
-import {DELETE_PLAYER, MainEmitter, NULL_RESULTS, SHOW_RESULTS} from "@/utils/EventEmitter";
+import {DELETE_PLAYER, MainEmitter, } from "@/utils/EventEmitter";
 
 export default {
   name: "UsersList",
-  props: ['users'],
+  props: ['users', 'result'],
 
   data() {
     return {
@@ -41,27 +42,8 @@ export default {
     }
   },
 
-  computed: {
-    summarize() {
-      if (!this.isVisible) return null;
-
-      let result = 0;
-
-      this.users.forEach(el => {
-        result += el.picked;
-      });
-
-      return (result / this.users.size).toFixed(1);
-    }
-  },
-
   beforeMount() {
     this.emitter = MainEmitter;
-  },
-
-  mounted() {
-    this.emitter.on(NULL_RESULTS, () => this.isVisible = false);
-    this.emitter.on(SHOW_RESULTS, () => this.isVisible = true);
   },
 }
 

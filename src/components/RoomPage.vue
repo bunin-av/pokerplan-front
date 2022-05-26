@@ -3,7 +3,7 @@
   <div class="room-wrapper">
     <TaskLink :task="tasks[0] ?? {}"/>
     <PokerCards/>
-    <UsersList :users="users"/>
+    <UsersList :users="users" :result="result"/>
     <TasksList :tasks="tasks"/>
   </div>
 </template>
@@ -18,9 +18,7 @@ import {
   ADD_TASKS, DELETE_PLAYER,
   MainEmitter,
   NEXT_TASK,
-  NULL_CARD,
-  NULL_RESULTS,
-  SHOW_RESULTS,
+  NULL_ACTIVE_CARD,
   USER_PICKED_CARD
 } from "@/utils/EventEmitter";
 
@@ -32,6 +30,7 @@ export default {
     return {
       users: [],
       tasks: [],
+      result: null,
     }
   },
 
@@ -40,32 +39,29 @@ export default {
       const {data, event} = JSON.parse(message.data);
 
       if (event === 'users') {
-        const result = [];
         let allPickedAreNull = true;
 
-        this.users = new Map(data.map(el => {
+        this.users = new Map(data.users.map(el => {
           if (el.picked != null) {
-            result.push(el.picked);
             allPickedAreNull = false;
           }
 
           return [el._id, el];
         }));
 
-        if (result.length === this.users.size) {
-          this.emitter.emit(SHOW_RESULTS);
+        if (data.result != null) {
+          this.result = data.result;
         } else {
-          this.emitter.emit(NULL_RESULTS);
+          this.result = null;
         }
 
         if (allPickedAreNull) {
-          this.emitter.emit(NULL_CARD);
+          this.emitter.emit(NULL_ACTIVE_CARD);
         }
-
       }
 
       if (event === 'tasks') {
-        this.tasks = data;
+        this.tasks = data.tasks;
       }
     }
   },
@@ -99,8 +95,12 @@ export default {
     });
 
     this.emitter.on(NEXT_TASK, (id) => {
-      Promise.all([api.nullResults(), api.deleteTask(id)])
-          .then(() => this.emitter.emit(NULL_RESULTS));
+      const promise = this.result == null
+          ? api.deleteTask(id)
+          : api.addTaskResult({id, result: this.result});
+
+      Promise.all([api.nullResults(), promise])
+          .then(() => this.result = null);
     });
 
     this.emitter.on(DELETE_PLAYER, (id) => {

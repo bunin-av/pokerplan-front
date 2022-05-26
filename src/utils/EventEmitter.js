@@ -60,9 +60,7 @@ const USER_PICKED_CARD = 'user-picked-card';
 const NAME_SUBMIT = 'name-submit';
 const ADD_TASKS = 'add-tasks';
 const NEXT_TASK = 'next-task';
-const NULL_RESULTS = 'null-results';
-const SHOW_RESULTS = 'show-results';
-const NULL_CARD = 'null-card';
+const NULL_ACTIVE_CARD = 'null-active-card';
 const DELETE_PLAYER = 'delete-player';
 
 export {
@@ -71,8 +69,6 @@ export {
   USER_PICKED_CARD,
   NAME_SUBMIT,
   NEXT_TASK,
-  NULL_RESULTS,
-  SHOW_RESULTS,
-  NULL_CARD,
+  NULL_ACTIVE_CARD,
   DELETE_PLAYER,
 };

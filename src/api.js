@@ -79,6 +79,16 @@ class API {
       .then(res => res.text());
   }
 
+  addTaskResult(data) {
+    return fetch(this.url('/tasks'), {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    });
+  }
+
   startNewGame() {
     return fetch(this.url('/new-game'))
       .then(res => res.text());

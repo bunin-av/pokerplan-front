@@ -9,12 +9,13 @@
     </div>
     <div v-for="task of tasks" :key="task._id" class="tasks-list">
       {{ task.link }}
+      <span class="result">  {{ task.result && `♠ ${task.result}`}}</span>
     </div>
   </div>
 </template>
 
 <script>
-import {ADD_TASKS, MainEmitter, NEXT_TASK} from "@/utils/EventEmitter";
+import {ADD_TASKS, MainEmitter, NEXT_TASK, } from "@/utils/EventEmitter";
 
 export default {
   name: "TasksList",
@@ -45,8 +46,8 @@ export default {
     },
 
     nextTask() {
-      this.emitter.emit(NEXT_TASK, this.tasks[0]._id);
-    }
+      this.emitter.emit(NEXT_TASK, this.tasks[0]?._id);
+    },
   },
 
   beforeCreate() {
@@ -73,6 +74,8 @@ export default {
 
 .tasks-list {
   width: 100%;
+  display: flex;
+  gap: 100px;
 }
 
 .next-button {
